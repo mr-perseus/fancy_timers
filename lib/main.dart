@@ -52,7 +52,7 @@ class MyHomePage extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            TimerButton(title: '10 seconds', duration: Duration(seconds: 10)),
+            TimerButton(title: '00:10', duration: Duration(seconds: 10)),
             TimerButton(title: '1 minute', duration: Duration(minutes: 1)),
             TimerButton(title: '3 minutes', duration: Duration(minutes: 3)),
             TimerButton(title: '5 minutes', duration: Duration(minutes: 5)),
@@ -75,19 +75,38 @@ class TimerButton extends StatefulWidget {
 }
 
 class _TimerButtonState extends State<TimerButton> {
-  late Timer _timer;
+  int countdownValue = 10;
+  bool isCountingDown = false;
+
   AudioPlayer audioPlayer = AudioPlayer();
+
+  void startCountdown() {
+    setState(() {
+      isCountingDown = true;
+    });
+
+    const oneSec = const Duration(seconds: 1);
+    Timer.periodic(oneSec, (Timer timer) {
+      if (countdownValue == 0) {
+        timer.cancel();
+        countdownValue = 10;
+        setState(() {
+          isCountingDown = false;
+        });
+      } else {
+        setState(() {
+          countdownValue--;
+        });
+      }
+    });
+  }
 
   @override
   void initState() {
     super.initState();
-    _startTimer();
   }
 
-  void _startTimer() {
-    _timer = Timer(widget.duration, _onTimerEnd);
-  }
-
+  // TODO
   void _onTimerEnd() async {
     // Play alarm sound
     await audioPlayer.play(AssetSource('sounds/alarm.mp3'));
@@ -95,7 +114,6 @@ class _TimerButtonState extends State<TimerButton> {
 
   @override
   void dispose() {
-    _timer.cancel();
     audioPlayer.dispose();
     super.dispose();
   }
@@ -103,9 +121,7 @@ class _TimerButtonState extends State<TimerButton> {
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
-      onPressed: () {
-        _startTimer();
-      },
+      onPressed: isCountingDown ? null : startCountdown,
       style: ElevatedButton.styleFrom(
         backgroundColor: Colors.blue,
         padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 15),
@@ -113,10 +129,7 @@ class _TimerButtonState extends State<TimerButton> {
           borderRadius: BorderRadius.circular(10),
         ),
       ),
-      child: Text(
-        widget.title,
-        style: const TextStyle(fontSize: 18, color: Colors.white),
-      ),
+      child: Text(isCountingDown ? '$countdownValue s' : widget.title),
     );
   }
 }
