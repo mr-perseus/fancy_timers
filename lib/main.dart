@@ -75,17 +75,19 @@ class TimerButton extends StatefulWidget {
 }
 
 class _TimerButtonState extends State<TimerButton> {
-  int countdownValue = 10;
+  int countdownValue = 0;
   bool isCountingDown = false;
 
   AudioPlayer audioPlayer = AudioPlayer();
 
   void startCountdown() {
+    countdownValue = widget.duration.inSeconds;
+
     setState(() {
       isCountingDown = true;
     });
 
-    const oneSec = const Duration(seconds: 1);
+    const oneSec = Duration(seconds: 1);
     Timer.periodic(oneSec, (Timer timer) {
       if (countdownValue == 0) {
         timer.cancel();
@@ -93,6 +95,7 @@ class _TimerButtonState extends State<TimerButton> {
         setState(() {
           isCountingDown = false;
         });
+        audioPlayer.play(AssetSource('sounds/alarm.mp3'));
       } else {
         setState(() {
           countdownValue--;
@@ -104,12 +107,6 @@ class _TimerButtonState extends State<TimerButton> {
   @override
   void initState() {
     super.initState();
-  }
-
-  // TODO
-  void _onTimerEnd() async {
-    // Play alarm sound
-    await audioPlayer.play(AssetSource('sounds/alarm.mp3'));
   }
 
   @override
