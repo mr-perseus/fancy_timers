@@ -49,14 +49,23 @@ class MyHomePage extends StatelessWidget {
         title: const Text('Fancy Timers'),
       ),
       body: const Center(
-        child: Column(
+        child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            TimerButton(title: '00:10', duration: Duration(seconds: 10)),
-            TimerButton(title: '1 minute', duration: Duration(minutes: 1)),
-            TimerButton(title: '3 minutes', duration: Duration(minutes: 3)),
-            TimerButton(title: '5 minutes', duration: Duration(minutes: 5)),
-            // Add more TimerButton instances as needed
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                TimerButton(title: '00:10', duration: Duration(seconds: 10)),
+                TimerButton(title: '1 minute', duration: Duration(minutes: 1)),
+              ],
+            ),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                TimerButton(title: '3 minutes', duration: Duration(minutes: 3)),
+                TimerButton(title: '5 minutes', duration: Duration(minutes: 5)),
+              ],
+            ),
           ],
         ),
       ),
