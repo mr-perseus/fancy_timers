@@ -97,8 +97,16 @@ class TimerButton extends StatefulWidget {
 class _TimerButtonState extends State<TimerButton> {
   int countdownValue = 0;
   bool isCountingDown = false;
+  late Timer timer;
 
   AudioPlayer audioPlayer = AudioPlayer();
+
+  void stopCountdown() {
+    timer.cancel();
+    setState(() {
+      isCountingDown = false;
+    });
+  }
 
   void startCountdown() {
     countdownValue = widget.duration.inSeconds;
@@ -108,10 +116,9 @@ class _TimerButtonState extends State<TimerButton> {
     });
 
     const oneSec = Duration(seconds: 1);
-    Timer.periodic(oneSec, (Timer timer) {
+    timer = Timer.periodic(oneSec, (Timer timer) {
       if (countdownValue == 0) {
         timer.cancel();
-        countdownValue = 10;
         setState(() {
           isCountingDown = false;
         });
@@ -138,7 +145,7 @@ class _TimerButtonState extends State<TimerButton> {
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
-      onPressed: isCountingDown ? null : startCountdown,
+      onPressed: isCountingDown ? stopCountdown : startCountdown,
       style: ElevatedButton.styleFrom(
         backgroundColor: Colors.blue,
         padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 15),
