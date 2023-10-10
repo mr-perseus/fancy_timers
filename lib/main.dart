@@ -56,14 +56,25 @@ class MyHomePage extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 TimerButton(title: '00:10', duration: Duration(seconds: 10)),
+                SizedBox(height: 50), // give it width
                 TimerButton(title: '1 minute', duration: Duration(minutes: 1)),
+                SizedBox(height: 50), // give it width
+                TimerButton(title: '3 minutes', duration: Duration(minutes: 3)),
+                SizedBox(height: 50), // give it width
+                TimerButton(title: '5 minutes', duration: Duration(minutes: 5)),
               ],
             ),
+            SizedBox(width: 50), // give it width
             Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                TimerButton(title: '3 minutes', duration: Duration(minutes: 3)),
-                TimerButton(title: '5 minutes', duration: Duration(minutes: 5)),
+                TimerButton(title: '10 minutes', duration: Duration(minutes: 10)),
+                SizedBox(height: 50), // give it width
+                TimerButton(title: '15 minutes', duration: Duration(minutes: 15)),
+                SizedBox(height: 50), // give it width
+                TimerButton(title: '20 minutes', duration: Duration(minutes: 20)),
+                SizedBox(height: 50), // give it width
+                TimerButton(title: '30 minutes', duration: Duration(minutes: 30)),
               ],
             ),
           ],
